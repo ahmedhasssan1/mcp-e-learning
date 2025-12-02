@@ -1,8 +1,11 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CoursesService } from './courses.service';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
+// import { CreateCourseDto } from './dto/create-course.dto';
+// import { UpdateCourseDto } from ';
+import { CreateCourseDto, } from '@app/contracts/courses/create-course.dto';
+import { UpdateCourseDto } from '@app/contracts/courses/update-course.dto';
+import { COURSES_PATTERN } from '@app/contracts/courses/courses.pattern';
 
 @Controller()
 export class CoursesController {
@@ -13,7 +16,7 @@ export class CoursesController {
     return this.coursesService.create(createCourseDto);
   }
 
-  @MessagePattern('findAllCourses')
+  @MessagePattern(COURSES_PATTERN.FIND_ALL)
   findAll() {
     return this.coursesService.findAll();
   }
