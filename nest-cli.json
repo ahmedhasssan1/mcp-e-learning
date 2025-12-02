@@ -10,6 +10,15 @@
   "monorepo": true,
   "root": "apps/e-learning",
   "projects": {
+    "contracts": {
+      "type": "library",
+      "root": "libs/contracts",
+      "entryFile": "index",
+      "sourceRoot": "libs/contracts/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/contracts/tsconfig.lib.json"
+      }
+    },
     "courses": {
       "type": "application",
       "root": "apps/courses",
