@@ -1,6 +1,8 @@
+import { CreateCourseDto } from '@app/contracts/courses/create-course.dto';
+import { UpdateCourseDto } from '@app/contracts/courses/update-course.dto';
 import { Injectable } from '@nestjs/common';
-import { CreateCourseDto } from './dto/create-course.dto';
-import { UpdateCourseDto } from './dto/update-course.dto';
+// import { CreateCourseDto } from './dto/create-course.dto';
+// import { UpdateCourseDto } from './dto/update-course.dto';
 
 @Injectable()
 export class CoursesService {
