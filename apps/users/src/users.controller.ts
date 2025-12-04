@@ -10,4 +10,8 @@ export class UsersController {
   getHello() {
     return this.usersService.getHello();
   }
+  @MessagePattern("createUser")
+  async create(){
+    return await this.usersService.create()
+  }
 }

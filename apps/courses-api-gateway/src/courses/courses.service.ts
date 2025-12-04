@@ -7,6 +7,8 @@ import { COURSES_PATTERN } from '@app/contracts/courses/courses.pattern';
 @Injectable()
 export class CoursesService {
   constructor(@Inject('COURSE_CLIENT') private courseClient: ClientProxy) {}
+
+  
   create(createCourseDto: CreateCourseDto) {
     return this.courseClient.send('createCourse', createCourseDto);
   }
