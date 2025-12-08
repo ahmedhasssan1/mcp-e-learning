@@ -8,9 +8,11 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
     ClientsModule.register([
       {
         name: 'USERS_CLIENT',
-        transport: Transport.TCP,
+        transport: Transport.RMQ,
         options: {
-          port: 3001,
+          urls: ['amqp://localhost:3001'],
+          queue:'usersQueue',
+          // port: 3001,
         },
       },
     ]),
