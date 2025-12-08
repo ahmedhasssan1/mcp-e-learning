@@ -1,17 +1,19 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { MessagePattern } from '@nestjs/microservices';
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
+import { CreateUserDto } from '@app/contracts/users/user.dto';
 
 @Controller()
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @MessagePattern('users.findAll')
+  @MessagePattern('findAll')
   getHello() {
-    return this.usersService.getHello();
+    return this.usersService.findAll();
   }
-  @MessagePattern("createUser")
-  async create(){
-    return await this.usersService.create()
+  @EventPattern('users.create')
+  async create( createUSer: CreateUserDto) {
+    console.log('debugging ',createUSer);
+    
   }
 }

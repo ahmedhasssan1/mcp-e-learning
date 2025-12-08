@@ -1,17 +1,20 @@
+// users.controller.ts
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { MessagePattern } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '@app/contracts/users/user.dto';
 
 @Controller('users')
 export class UsersController {
-  constructor(private userService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
-  @Get()
+  @Get('findAll')
   findAll() {
-    return this.userService.findAll();
+    return this.usersService.findAll();
   }
-  @Post()
- async createUser(@Body() createUser: CreateUserDto) {
-    return await this.userService.create(createUser);
+
+  @Post('create')
+  async create(@Body() createUserDto: CreateUserDto) {
+    return await this.usersService.create(createUserDto);
   }
 }
