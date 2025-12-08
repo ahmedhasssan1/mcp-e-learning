@@ -1,0 +1,4 @@
+export enum MicroServiceName{
+    USERSSERVICE="USER_SERVICES",
+    COURSESSERVICES="COURSES_SERVICE"
+}

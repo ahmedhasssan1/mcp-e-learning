@@ -16,19 +16,15 @@ export class CreateUserDto {
 
   @ApiProperty({ example: 'johndoe', minLength: 3, maxLength: 100 })
   @IsString()
-  @MinLength(3)
-  @MaxLength(100)
   username: string;
 
   @ApiProperty({ example: 'SecurePassword123!', minLength: 8 })
   @IsString()
-  @MinLength(8)
   password: string;
 
   @ApiPropertyOptional({ example: 'John' })
   @IsOptional()
   @IsString()
-  @MaxLength(100)
   firstName?: string;
 
   @ApiPropertyOptional({ example: 'Doe' })
