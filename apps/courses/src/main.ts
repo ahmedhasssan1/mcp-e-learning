@@ -6,13 +6,13 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     CoursesAppModule,
     {
-      transport: Transport.TCP,
+      transport: Transport.NATS,
       options: {
-        port: 3002,
+        servers: ['nats://localhost:4222'],
       },
     },
   );
   await app.listen();
-  console.log('Users microservice is listening on port 3001');
+  console.log('Courses microservice is listening on NATS');
 }
 bootstrap();

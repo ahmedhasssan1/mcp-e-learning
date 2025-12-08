@@ -4,24 +4,24 @@ import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { User } from './entity/users.entity';
+import { ClientsModule, Transport } from '@nestjs/microservices';
+import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User]),
-    ConfigModule.forRoot({
-      isGlobal: true, // VERY IMPORTANT
-    }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.DB_HOST,
-      port: 3306,
-      username: process.env.DB_USERNAME,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DATABASE,
-      synchronize: true,
-    }),
+   ClientsModule.register([
+         {
+           name: QueueName.USER_QUEUE,
+           transport: Transport.REDIS,
+           options: {
+             host: '192.168.116.128',
+             port: 6379,
+           },
+         },
+       ]),
   ],
   controllers: [UsersController],
   providers: [UsersService],
+  exports: [UsersService],
 })
 export class UsersModule {}
