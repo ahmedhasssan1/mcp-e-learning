@@ -12,21 +12,19 @@ import {
 import { UserRole } from '../enum/userRole';
 import { AccountStatus } from '../enum/accountStatus';
 
-@Entity('users')
-@Index(['email'])
-@Index(['userRole'])
-@Index(['accountStatus'])
+// @Entity('users')
+// @Index(['email'], { unique: true })
+// @Index(['userRole'])
+// @Index(['accountStatus'])
 export class User {
   @PrimaryGeneratedColumn()
   userId: number;
 
   @Column({
     type: 'varchar',
-    length: 255,
-    unique: true,
+    unique: false,
     nullable: false,
   })
-  @Index()
   email: string;
 
   @Column({
@@ -115,14 +113,11 @@ export class User {
 
   @CreateDateColumn({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
   })
   createdAt: Date;
 
   @UpdateDateColumn({
     type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP',
-    onUpdate: 'CURRENT_TIMESTAMP',
   })
   updatedAt: Date;
 
@@ -146,17 +141,5 @@ export class User {
   })
   languagePreference: string;
 
-  // Lifecycle hooks
-  @BeforeInsert()
-  @BeforeUpdate()
-  emailToLowerCase() {
-    if (this.email) {
-      this.email = this.email.toLowerCase();
-    }
-  }
 
-  // Virtual property for full name
-  get fullName(): string {
-    return `${this.firstName || ''} ${this.lastName || ''}`.trim();
-  }
 }

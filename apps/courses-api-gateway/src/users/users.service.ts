@@ -1,15 +1,23 @@
-import { CreateUserDto } from '@app/contracts/users/user.dto';
-import { Inject, Injectable } from '@nestjs/common';
+// users.service.ts
+import { Injectable, Inject } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom, timeout } from 'rxjs';
+import { CreateUserDto } from '@app/contracts/users/user.dto';
+import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 
 @Injectable()
 export class UsersService {
-  constructor(@Inject('USERS_CLIENT') private userClient: ClientProxy) {}
+  constructor(@Inject(QueueName.USER_QUEUE) private userClient: ClientProxy) {}
 
-  findAll() {
-    return this.userClient.send('users.findAll', {});
+  async findAll() {
+    return await firstValueFrom(
+      this.userClient.send('findAll', {}).pipe(timeout(5000)),
+    );
   }
-  async create(createUser: CreateUserDto) {
-    await this.userClient.send('createUser',{createUser});
+
+  async create(createUserDto: CreateUserDto) {
+    return await firstValueFrom(
+      this.userClient.send('users.create', createUserDto).pipe(timeout(5000)),
+    );
   }
 }
