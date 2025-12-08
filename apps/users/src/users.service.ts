@@ -20,7 +20,8 @@ export class UsersService {
     return 'asasf';
   }
 
-  async create(createUserDto: CreateUserDto) {
-    return 'creaee';
+  async create(createUserDto: any) {
+    await this.usersClient.emit('user.created',createUserDto);
+    return 'user created';
   }
 }

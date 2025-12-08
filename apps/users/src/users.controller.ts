@@ -11,9 +11,10 @@ export class UsersController {
   getHello() {
     return this.usersService.findAll();
   }
-  @EventPattern('users.create')
-  async create( createUSer: CreateUserDto) {
-    console.log('debugging ',createUSer);
-    
+  @MessagePattern('users.create')
+  async create(createUSer: any) {
+    console.log('debugging ', createUSer);
+    await this.usersService.create(createUSer);
+    return 'user created';
   }
 }

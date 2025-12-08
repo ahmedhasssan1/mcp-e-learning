@@ -1,6 +1,6 @@
 // users.service.ts
 import { Injectable, Inject } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientProxy, EventPattern } from '@nestjs/microservices';
 import { firstValueFrom, timeout } from 'rxjs';
 import { CreateUserDto } from '@app/contracts/users/user.dto';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
@@ -15,9 +15,10 @@ export class UsersService {
     );
   }
 
-  async create(createUserDto: CreateUserDto) {
-    return await firstValueFrom(
-      this.userClient.send('users.create', createUserDto).pipe(timeout(5000)),
-    );
+  @EventPattern("users.created")
+  async create(createUserDto: any) {
+    console.log('debugging from service gateay');
+    return await this.userClient.send("users.create",createUserDto);
+
   }
 }
