@@ -1,3 +1,4 @@
 export enum QueueName{
-    USER_QUEUE="USER_QUEUE"
+    USER_QUEUE="USER_QUEUE",
+    KAFKA_SERVICE="KAFKA_SERVICE"
 }

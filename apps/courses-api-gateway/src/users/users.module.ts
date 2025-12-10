@@ -10,12 +10,13 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
   imports: [
     ClientsModule.register([
       {
-        name: QueueName.USER_QUEUE,
-        transport: Transport.REDIS,
-        options: {
-          host: '192.168.116.128',
-          port: 6379,
-        },
+        name: QueueName.KAFKA_SERVICE,
+        transport: Transport.KAFKA,
+          options: {
+          client:{
+            brokers:["localhost:9092"]
+          }
+          },
       },
     ]),
   ],
