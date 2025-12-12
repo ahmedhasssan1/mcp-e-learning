@@ -1,26 +1,32 @@
 import { NestFactory } from '@nestjs/core';
-import { ValidationPipe } from '@nestjs/common';
 import { Transport, MicroserviceOptions } from '@nestjs/microservices';
 import { UsersModule } from './users.module';
-import { AllExceptionsFilter } from './filters/all-exceptions.filter';
-import { MicroServiceName } from 'apps/courses-api-gateway/enums/constants';
+import { Partitioners } from 'kafkajs';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     UsersModule,
     {
-      transport: Transport.REDIS,
+      transport: Transport.KAFKA,
       options: {
-        host: '192.168.116.128',
-        port: 6379,
+        client: {
+          brokers: ['localhost:9092'],
+        },
+        consumer: {
+          groupId: 'user_consumer_groupe',
+        },
+        producer: {
+          createPartitioner: Partitioners.LegacyPartitioner,
+        },
+        retry: {
+          retries: 5,
+          initialRetryTime: 300,
+        },
       },
     },
   );
 
- 
-  // app.useGlobalFilters(new AllExceptionsFilter());
-
   await app.listen();
-  console.log('Users microservice is listening on port 3001');
+  console.log('Users microservice is listening on Kafka');
 }
 bootstrap();
