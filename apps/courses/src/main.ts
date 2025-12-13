@@ -6,13 +6,19 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     CoursesAppModule,
     {
-      transport: Transport.NATS,
+      transport: Transport.KAFKA,
       options: {
-        servers: ['nats://localhost:4222'],
+        client: {
+          brokers: ['localhost:9092'],
+        },
+
+        consumer: {
+          groupId: 'courses_consumer_groupe',
+        },
       },
     },
   );
   await app.listen();
-  console.log('Courses microservice is listening on NATS');
+  console.log('Courses microservice is listening on kafka');
 }
 bootstrap();

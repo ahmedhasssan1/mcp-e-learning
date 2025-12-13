@@ -7,29 +7,25 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { usersClientModule } from '../userssClients/users-clients.module';
 import { MicroServiceName } from '../enums/constants';
+import { QueueName } from '../enums/queue-name';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     ClientsModule.register([
       {
-        name: 'users_service',
-        transport: Transport.REDIS,
+        name: QueueName.KAFKA_SERVICE,
+        transport: Transport.KAFKA,
         options: {
-          host: '192.168.116.128',
-          port: 6379,
-        },
-      },
-      {
-        name: MicroServiceName.COURSESSERVICES,
-        transport: Transport.REDIS,
-        options: {
-          host: '192.168.116.128',
-          port: 6379,
+          client: {
+            brokers: ['localhost:9092'],
+          },
         },
       },
     ]),
     UsersModule,
     CoursesModule,
+    AuthModule,
   ],
   controllers: [CoursesApiGatewayController],
   providers: [CoursesApiGatewayService],
