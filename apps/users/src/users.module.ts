@@ -9,16 +9,28 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 
 @Module({
   imports: [
-   ClientsModule.register([
-         {
-           name: QueueName.USER_QUEUE,
-           transport: Transport.REDIS,
-           options: {
-             host: '192.168.116.128',
-             port: 6379,
-           },
-         },
-       ]),
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      port: 3306,
+      host: 'localhost',
+      username: 'root',
+      password: 'Ahmed123*#',
+      database: 'e-learning',
+      autoLoadEntities: true,
+      synchronize: true,
+    }),
+    TypeOrmModule.forFeature([User]),
+    ClientsModule.register([
+      {
+        name: QueueName.KAFKA_SERVICE,
+        transport: Transport.KAFKA,
+        options: {
+          client: {
+            brokers: ['localhost:9092'],
+          },
+        },
+      },
+    ]),
   ],
   controllers: [UsersController],
   providers: [UsersService],

@@ -12,15 +12,9 @@ async function bootstrap() {
         client: {
           brokers: ['localhost:9092'],
         },
+
         consumer: {
           groupId: 'user_consumer_groupe',
-        },
-        producer: {
-          createPartitioner: Partitioners.LegacyPartitioner,
-        },
-        retry: {
-          retries: 5,
-          initialRetryTime: 300,
         },
       },
     },

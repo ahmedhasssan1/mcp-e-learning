@@ -1,50 +1,38 @@
-import {
-  IsEmail,
-  IsString,
-  MinLength,
-  MaxLength,
-  IsOptional,
-  IsEnum,
-} from 'class-validator';
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
 import { UserRole } from 'apps/users/src/enum/userRole';
+import { IsEmail, IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
-export class CreateUserDto {
-  @ApiPropertyOptional({ example: 'user@example.com' })
+export class UpdateUserDto {
+  @IsOptional()
   @IsEmail()
-  email: string;
+  email?: string;
 
-  @ApiProperty({ example: 'johndoe', minLength: 3, maxLength: 100 })
-  @IsString()
-  username: string;
-
-  @ApiProperty({ example: 'SecurePassword123!', minLength: 8 })
-  @IsString()
-  password: string;
-
-  @ApiPropertyOptional({ example: 'John' })
   @IsOptional()
   @IsString()
+  @MaxLength(100)
+  username?: string;
+
+  @IsOptional()
+  @IsString()
+  @MinLength(6)
+  @MaxLength(255)
+  password?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(100)
   firstName?: string;
 
-  @ApiPropertyOptional({ example: 'Doe' })
   @IsOptional()
   @IsString()
   @MaxLength(100)
   lastName?: string;
 
-  @ApiPropertyOptional({ enum: UserRole, default: UserRole.STUDENT })
+  @IsOptional()
+  @IsString()
+  profilePictureUrl?: string;
+
   @IsOptional()
   @IsEnum(UserRole)
   userRole?: UserRole;
-
-  @ApiPropertyOptional({ example: 'UTC' })
-  @IsOptional()
-  @IsString()
-  timezone?: string;
-
-  @ApiPropertyOptional({ example: 'en' })
-  @IsOptional()
-  @IsString()
-  languagePreference?: string;
 }
