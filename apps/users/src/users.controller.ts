@@ -11,16 +11,11 @@ export class UsersController {
   getHello() {
     return this.usersService.findAll();
   }
-  // @MessagePattern('users.create')
-  // async create(createUSer: any) {
-  //   console.log('debugging ', createUSer);
-  //   await this.usersService.create(createUSer);
-  //   return 'user created';
-  // }
+
   @MessagePattern('order_create')
   async handleKafka(@Payload() data: CreateUserDto) {
-    const userService=await this.usersService.create(data)
-    return userService;
-    console.log('test kafka is working :', data);
+    const user = await this.usersService.create(data);
+    console.log('debugging user adata  ', data);
+    
   }
 }
