@@ -14,7 +14,7 @@
 
       @Column({
         type: 'varchar',
-        unique: false,
+        // unique: false,
         nullable: false,
       })
       email: string;
@@ -22,7 +22,6 @@
       @Column({
         type: 'varchar',
         length: 100,
-        unique: true,
         nullable: false,
       })
       username: string;

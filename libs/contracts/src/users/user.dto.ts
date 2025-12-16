@@ -1,31 +1,30 @@
-
 import { UserRole } from 'apps/users/src/enum/userRole';
-import { IsEmail, IsEnum, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
 
-export class UpdateUserDto {
-  @IsOptional()
+export class CreateUserDto {
   @IsEmail()
-  email?: string;
+  email: string;
 
-  @IsOptional()
   @IsString()
-  @MaxLength(100)
-  username?: string;
+  @MinLength(3)
+  username: string;
 
-  @IsOptional()
   @IsString()
   @MinLength(6)
-  @MaxLength(255)
-  password?: string;
+  password: string;
 
   @IsOptional()
   @IsString()
-  @MaxLength(100)
   firstName?: string;
 
   @IsOptional()
   @IsString()
-  @MaxLength(100)
   lastName?: string;
 
   @IsOptional()
@@ -34,5 +33,5 @@ export class UpdateUserDto {
 
   @IsOptional()
   @IsEnum(UserRole)
-  userRole?: UserRole;
+  userRole?: UserRole; // optional → defaults to STUDENT
 }

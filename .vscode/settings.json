@@ -10,7 +10,7 @@
       "server": "localhost",
       "port": 3306,
       "driver": "MySQL",
-      "name": "e-learning2",
+      "name": "e-learning3",
       "database": "e-learning",
       "username": "root"
     }

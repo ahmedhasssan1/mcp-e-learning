@@ -28,6 +28,7 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
           client: {
             brokers: ['localhost:9092'],
           },
+         
         },
       },
     ]),
