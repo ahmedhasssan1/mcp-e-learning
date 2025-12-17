@@ -8,7 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entity/users.entity';
 import { Repository } from 'typeorm';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
-import { ClientProxy } from '@nestjs/microservices';
+import { ClientKafka, ClientProxy } from '@nestjs/microservices';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from '@app/contracts/users/user.dto';
 
@@ -55,5 +55,15 @@ export class UsersService {
       // Only throw internal error if really unexpected
       throw new InternalServerErrorException('Failed to create user');
     }
+
+  }
+  async findOneByEmail(email:string){
+    const user=await this.userRepo.findOne({where:{email}});
+    if(!user){
+      return  {reason:"this email not ecist in this web"}
+    }
+    console.log('debugging login from micro service');
+    
+    return user;
   }
 }
