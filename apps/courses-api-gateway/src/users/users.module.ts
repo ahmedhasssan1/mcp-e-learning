@@ -12,11 +12,14 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
       {
         name: QueueName.KAFKA_SERVICE,
         transport: Transport.KAFKA,
-          options: {
-          client:{
-            brokers:["localhost:9092"]
-          }
+        options: {
+          client: {
+            brokers: ['localhost:9092'],
           },
+          consumer: {
+            groupId: 'user_consumer_group',
+          },
+        },
       },
     ]),
   ],

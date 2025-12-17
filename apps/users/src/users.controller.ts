@@ -12,10 +12,16 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @MessagePattern('order_create')
+  @EventPattern('order_create')
   async handleKafka(@Payload() data: CreateUserDto) {
     const user = await this.usersService.create(data);
     console.log('debugging user adata  ', data);
-    
+  }
+  @MessagePattern('user_login')
+  async userLogin(@Payload() userData: string) {
+    const check_user_exist = await this.usersService.findOneByEmail(userData);
+    console.log('debugging  logn from mocroservice');
+
+    return check_user_exist;
   }
 }

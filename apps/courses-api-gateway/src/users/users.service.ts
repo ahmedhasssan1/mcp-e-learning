@@ -1,9 +1,6 @@
 // users.service.ts
 import { Injectable, Inject } from '@nestjs/common';
-import {
-  ClientKafka,
- 
-} from '@nestjs/microservices';
+import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom, timeout } from 'rxjs';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 import { CreateUserDto } from '@app/contracts/users/user.dto';
@@ -20,10 +17,14 @@ export class UsersService {
     );
   }
 
-  
   create(createUserDto: CreateUserDto) {
-    this.kafkaClient.emit("order_create",createUserDto)
+    this.kafkaClient.emit('order_create', createUserDto);
     console.log('Received from users microservice:');
     // return result;
+  }
+
+  login(email: string) {
+    this.kafkaClient.emit('user_login', email);
+    console.log('send email to userlogin ropic');
   }
 }
