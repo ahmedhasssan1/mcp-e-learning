@@ -14,9 +14,9 @@ export class AuthService {
     @InjectRepository(User) private readonly userRepo: Repository<User>, // Fixed naming
   ) {}
 
-  async userExist(email: string) {
-    // Added async and return type
-    const user = await this.userRepo.findOne({ where: { email } }); // Added await
-    return user;
-  }
+  // async userExist(email: string) {
+  //   // Added async and return type
+  //   const user = await this.userRepo.findOne({ where: { email } }); // Added await
+  //   return user;
+  // }
 }
