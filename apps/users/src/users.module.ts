@@ -9,13 +9,14 @@ import { User } from '@app/contracts/users/entity/users.entity';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       port: 3306,
       host: 'localhost',
       username: 'root',
-      password: 'Ahmed123*#',
-      database: 'e-learning',
+      password: process.env.DB_PASSWORD,
+      database: process.env.DATABASE,
       autoLoadEntities: true,
       synchronize: true,
     }),
