@@ -6,6 +6,7 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 import { UsersModule } from 'apps/users/src/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '@app/contracts/users/entity/users.entity';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -25,6 +26,10 @@ import { User } from '@app/contracts/users/entity/users.entity';
       },
     ]),
     UsersModule,
+    JwtModule.register({
+      secret: process.env.JWT_PASS,
+      signOptions: { expiresIn: '1d' },
+    }),
   ],
 
   controllers: [AuthController],

@@ -10,7 +10,11 @@ export class AuthController {
   // @MessagePattern("get_user")
   // async login(@Payload() email:string){
   //   console.log('logg th auth service');
-  
+
   //   return this.authService.userExist(email);
   // }
+  @MessagePattern('auth_login')
+  async login(@Payload() data: LoginDto) {
+    return await this.authService.login(data);
+  }
 }
