@@ -20,6 +20,9 @@ export class UsersService implements OnModuleInit {
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
+  onModuleInit() {
+    // this.usersClient.subscribeToResponseOf('get_user');
+  }
   findAll() {
     return this.userRepo.find();
   }
@@ -59,6 +62,7 @@ export class UsersService implements OnModuleInit {
   }
   async findOneByEmail(email: string) {
     console.log('get uyser data');
-    return await this.userRepo.findOne({ where: { email } });
+    return await this.userRepo.findOne({where:{email}})
+    
   }
 }
