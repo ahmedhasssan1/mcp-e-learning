@@ -4,9 +4,12 @@ import { AuthService } from './auth.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 import { UsersModule } from 'apps/users/src/users.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '@app/contracts/users/entity/users.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     ClientsModule.register([
       {
         name: QueueName.KAFKA_SERVICE,
@@ -15,10 +18,13 @@ import { UsersModule } from 'apps/users/src/users.module';
           client: {
             brokers: ['localhost:9092'],
           },
+          consumer: {
+            groupId: 'auth_consumer',
+          },
         },
       },
     ]),
-    UsersModule
+    UsersModule,
   ],
 
   controllers: [AuthController],

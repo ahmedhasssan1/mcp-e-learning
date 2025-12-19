@@ -14,7 +14,7 @@ async function bootstrap() {
         },
 
         consumer: {
-          groupId: 'user_consumer_group',
+          groupId: 'user_consumer',
         },
       },
     },

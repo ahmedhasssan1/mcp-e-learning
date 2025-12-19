@@ -3,9 +3,9 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
-import { User } from './entity/users.entity';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
+import { User } from '@app/contracts/users/entity/users.entity';
 
 @Module({
   imports: [
@@ -28,6 +28,9 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
           client: {
             brokers: ['localhost:9092'],
           },
+          // consumer: {
+          //   groupId: 'auth_consumer',
+          // },
         },
       },
     ]),

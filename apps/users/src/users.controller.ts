@@ -15,13 +15,20 @@ export class UsersController {
   @EventPattern('order_create')
   async handleKafka(@Payload() data: CreateUserDto) {
     const user = await this.usersService.create(data);
-    console.log('debugging user adata  ', data);
+    console.log('User created from Kafka event:', data);
   }
-  @MessagePattern('user_login')
-  async userLogin(@Payload() userData: string) {
-    const check_user_exist = await this.usersService.findOneByEmail(userData);
-    console.log('debugging  logn from mocroservice');
 
-    return check_user_exist;
+  @MessagePattern('get_user')
+  async getUserByEmail(email: string) {
+    console.log('Kafka received email:', email);
+
+    const user = await this.usersService.findOneByEmail(email);
+
+    if (!user) {
+      return 'nooooores'; // Kafka will send null if user not found
+    }
+
+    const { password, ...safeUser } = user; // remove password
+    return safeUser; // ✅ THIS RETURN IS REQUIRED
   }
 }

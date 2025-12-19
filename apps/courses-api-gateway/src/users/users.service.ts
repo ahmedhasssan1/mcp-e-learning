@@ -1,12 +1,13 @@
 // users.service.ts
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable, Inject, OnModuleInit } from '@nestjs/common';
 import { ClientKafka } from '@nestjs/microservices';
 import { firstValueFrom, timeout } from 'rxjs';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 import { CreateUserDto } from '@app/contracts/users/user.dto';
+import { User } from '@app/contracts/users/entity/users.entity';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
   constructor(
     @Inject(QueueName.KAFKA_SERVICE) private kafkaClient: ClientKafka,
   ) {}
@@ -23,8 +24,16 @@ export class UsersService {
     // return result;
   }
 
-  login(email: string) {
-    this.kafkaClient.emit('user_login', email);
-    console.log('send email to userlogin ropic');
+  async onModuleInit() {
+    this.kafkaClient.subscribeToResponseOf('get_user');
+    await this.kafkaClient.connect();
   }
+  async findOneUser(email: string): Promise<User> {
+    console.log('Sending email to get_user topic:', email);
+
+    return await firstValueFrom(
+      this.kafkaClient.send<User>('get_user', email).pipe(timeout(5000)),
+    );
+  }
+
 }

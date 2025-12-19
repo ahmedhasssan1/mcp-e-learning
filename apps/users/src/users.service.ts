@@ -3,19 +3,20 @@ import {
   ConflictException,
   InternalServerErrorException,
   Inject,
+  OnModuleInit,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from './entity/users.entity';
 import { Repository } from 'typeorm';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 import { ClientKafka, ClientProxy } from '@nestjs/microservices';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from '@app/contracts/users/user.dto';
+import { User } from '@app/contracts/users/entity/users.entity';
 
 @Injectable()
-export class UsersService {
+export class UsersService implements OnModuleInit {
   constructor(
-    @Inject(QueueName.KAFKA_SERVICE) private usersClient: ClientProxy,
+    @Inject(QueueName.KAFKA_SERVICE) private usersClient: ClientKafka,
     @InjectRepository(User) private readonly userRepo: Repository<User>,
   ) {}
 
@@ -27,7 +28,7 @@ export class UsersService {
     try {
       // Check for duplicates by email or username
       const existingUser = await this.userRepo.findOne({
-       where:{email:createUserDto.email} 
+        where: { email: createUserDto.email },
       });
 
       if (existingUser) {
@@ -55,15 +56,9 @@ export class UsersService {
       // Only throw internal error if really unexpected
       throw new InternalServerErrorException('Failed to create user');
     }
-
   }
-  async findOneByEmail(email:string){
-    const user=await this.userRepo.findOne({where:{email}});
-    if(!user){
-      return  {reason:"this email not ecist in this web"}
-    }
-    console.log('debugging login from micro service');
-    
-    return user;
+  async findOneByEmail(email: string) {
+    console.log('get uyser data');
+    return await this.userRepo.findOne({ where: { email } });
   }
 }

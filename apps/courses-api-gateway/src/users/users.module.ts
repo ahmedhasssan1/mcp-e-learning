@@ -17,7 +17,7 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
             brokers: ['localhost:9092'],
           },
           consumer: {
-            groupId: 'user_consumer_group',
+            groupId: 'user_consumer',
           },
         },
       },

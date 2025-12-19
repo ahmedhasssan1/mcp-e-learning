@@ -7,9 +7,10 @@ import { LoginDto } from '@app/contracts/users/login.dto';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @MessagePattern("login")
-  async login(@Payload() Login:LoginDto){
-    const {email,password}=Login
-    const user_exist=await this.authService.userExist(email)
-  }
+  // @MessagePattern("get_user")
+  // async login(@Payload() email:string){
+  //   console.log('logg th auth service');
+  
+  //   return this.authService.userExist(email);
+  // }
 }

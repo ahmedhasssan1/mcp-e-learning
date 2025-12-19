@@ -1,5 +1,5 @@
 // users.controller.ts
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { MessagePattern } from '@nestjs/microservices';
 import { UsersService } from './users.service';
 import { CreateUserDto } from '@app/contracts/users/user.dto';
@@ -19,11 +19,9 @@ export class UsersController {
     this.usersService.create(createUserDto);
     return 'user created succesffully';
   }
-  @Post('Login')
-  Login(@Body() login: LoginDto) {
-    const { email } = login;
-    console.log('debugging  login in con',email);
-    
-    this.usersService.login(email);
+  @Get('profile')
+  async getUser(@Query('email') email: string) {
+    console.log('debugging login in con', email);
+    return await this.usersService.findOneUser(email);
   }
 }

@@ -1,10 +1,10 @@
-    import { Exclude } from 'class-transformer';
+    import { UserRole } from 'apps/users/src/enum/userRole';
+import { Exclude } from 'class-transformer';
     import {
       Column,
       Entity,
       PrimaryGeneratedColumn,
     } from 'typeorm';
-    import { UserRole } from '../enum/userRole';
 
 
     @Entity('users')
@@ -14,7 +14,7 @@
 
       @Column({
         type: 'varchar',
-        // unique: false,
+        unique: false,
         nullable: false,
       })
       email: string;
