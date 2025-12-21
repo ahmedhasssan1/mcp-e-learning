@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { CoursesApiGatewayModule } from './courses-api-gateway.module';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(CoursesApiGatewayModule);
@@ -11,6 +12,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.use(cookieParser());
+
   await app.listen(3000);
 }
 bootstrap();

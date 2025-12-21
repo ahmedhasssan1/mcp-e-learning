@@ -15,6 +15,7 @@ export class AuthService {
     @Inject(QueueName.KAFKA_SERVICE) private readonly authClient: ClientKafka,
     @InjectRepository(User) private readonly userRepo: Repository<User>, // Fixed naming
     private jwtservicec: JwtService,
+
   ) {}
 
 
@@ -31,7 +32,8 @@ export class AuthService {
     }
     const payload = { sub: user_exist.id, email: user_exist.email };
     const token = await this.jwtservicec.signAsync(payload);
-
+    
+    
     return token;
   }
 }
