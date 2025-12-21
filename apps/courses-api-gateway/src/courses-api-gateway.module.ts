@@ -9,6 +9,7 @@ import { usersClientModule } from '../userssClients/users-clients.module';
 import { MicroServiceName } from '../enums/constants';
 import { QueueName } from '../enums/queue-name';
 import { AuthModule } from './auth/auth.module';
+import { WebsocketModule } from './websocket/websocket.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { AuthModule } from './auth/auth.module';
     UsersModule,
     CoursesModule,
     AuthModule,
+    WebsocketModule,
   ],
   controllers: [CoursesApiGatewayController],
   providers: [CoursesApiGatewayService],
