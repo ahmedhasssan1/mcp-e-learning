@@ -4,6 +4,6 @@ import { SubscribeMessage, WebSocketGateway } from '@nestjs/websockets';
 export class WebsocketGateway {
   @SubscribeMessage('message')
   handleMessage(client: any, payload: any): string {
-    return 'Hello world!';
+    return 'Hello from websocketgatway';
   }
 }
