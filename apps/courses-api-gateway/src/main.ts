@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { CoursesApiGatewayModule } from './courses-api-gateway.module';
 import * as cookieParser from 'cookie-parser';
+import { WebsocketGateway } from './websocket/websocket.gateway';
 
 async function bootstrap() {
   const app = await NestFactory.create(CoursesApiGatewayModule);
@@ -12,6 +13,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  const gt = app.get(WebsocketGateway);
+  setInterval(() => gt.SendMessage(), 3000);
   app.use(cookieParser());
 
   await app.listen(3000);
