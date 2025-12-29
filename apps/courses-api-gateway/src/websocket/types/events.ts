@@ -1,3 +1,3 @@
-export interface ServerToClientEvent{
-    newMessage:(payload:MEssage)->void
-}
+// export interface ServerToClientEvent{
+//     newMessage:(payload:MEssage)
+// }
