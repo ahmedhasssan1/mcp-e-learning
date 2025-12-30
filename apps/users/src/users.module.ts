@@ -29,9 +29,9 @@ import { User } from '@app/contracts/users/entity/users.entity';
           client: {
             brokers: ['localhost:9092'],
           },
-          // consumer: {
-          //   groupId: 'auth_consumer',
-          // },
+          consumer: {
+            groupId: 'user_consumer',
+          },
         },
       },
     ]),
