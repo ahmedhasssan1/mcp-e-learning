@@ -10,7 +10,6 @@ import { MicroServiceName } from '../enums/constants';
 import { QueueName } from '../enums/queue-name';
 import { AuthModule } from './auth/auth.module';
 import { WebsocketModule } from './websocket/websocket.module';
-import { MessagesModule } from './messages/messages.module';
 
 @Module({
   imports: [
@@ -29,7 +28,6 @@ import { MessagesModule } from './messages/messages.module';
     CoursesModule,
     AuthModule,
     WebsocketModule,
-    MessagesModule,
   ],
   controllers: [CoursesApiGatewayController],
   providers: [CoursesApiGatewayService],
