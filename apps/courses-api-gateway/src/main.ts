@@ -14,7 +14,6 @@ async function bootstrap() {
     }),
   );
   const gt = app.get(WebsocketGateway);
-  setInterval(() => gt.SendMessage(), 3000);
   app.use(cookieParser());
 
   await app.listen(3000);

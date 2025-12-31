@@ -17,4 +17,4 @@ export class AuthController {
   async login(@Payload() data: LoginDto) {
     return await this.authService.login(data);
   }
-}
+} 
