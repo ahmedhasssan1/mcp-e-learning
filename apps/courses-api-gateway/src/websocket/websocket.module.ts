@@ -4,6 +4,8 @@ import { WebsocketService } from './websocket.service';
 import { WebsocketController } from './websocket.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -21,6 +23,11 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
         },
       },
     ]),
+    JwtModule.register({
+      secret: process.env.JWT_PASS,
+      signOptions: { expiresIn: '1d' },
+    }),
+    AuthModule
   ],
   providers: [WebsocketGateway, WebsocketService],
 

@@ -1,5 +1,6 @@
 import { LoginDto } from '@app/contracts/users/login.dto';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { ClientKafka } from '@nestjs/microservices';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
 import { firstValueFrom, timeout } from 'rxjs';
@@ -8,6 +9,7 @@ import { firstValueFrom, timeout } from 'rxjs';
 export class AuthService implements OnModuleInit {
   constructor(
     @Inject(QueueName.KAFKA_SERVICE) private readonly AuthClient: ClientKafka,
+    private jwtService: JwtService,
   ) {}
   async onModuleInit() {
     this.AuthClient.subscribeToResponseOf('auth_login');
@@ -19,5 +21,11 @@ export class AuthService implements OnModuleInit {
       this.AuthClient.send('auth_login', userData).pipe(timeout(5000)),
     );
     return result;
+  }
+  async verfiytoken(token: string) {
+    const payload = await this.jwtService.verifyAsync(token, {
+      secret: '1123',
+    });
+    return payload;
   }
 }

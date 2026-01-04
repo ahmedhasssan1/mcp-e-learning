@@ -3,6 +3,10 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
+import { JwtModule } from '@nestjs/jwt';
+import { WsJwtGuard } from './ws-jwt/ws-jwt.guard';
+import { SocketAuthMiddleWare } from './ws.mw';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -20,8 +24,20 @@ import { QueueName } from 'apps/courses-api-gateway/enums/queue-name';
         },
       },
     ]),
+    JwtModule.register({
+      secret: process.env.JWT_PASS,
+      signOptions: { expiresIn: '1d' },
+    }),
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    WsJwtGuard,
+    {
+      provide: APP_GUARD,
+      useClass: WsJwtGuard,
+    },
+  ],
   controllers: [AuthController],
+  exports: [WsJwtGuard, AuthService],
 })
 export class AuthModule {}
