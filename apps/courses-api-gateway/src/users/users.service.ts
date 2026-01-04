@@ -12,6 +12,14 @@ export class UsersService implements OnModuleInit {
     @Inject(QueueName.KAFKA_SERVICE) private kafkaClient: ClientKafka,
   ) {}
 
+  async onModuleInit() {
+    // Connect FIRST
+    await this.kafkaClient.connect();
+    // Then subscribe
+    this.kafkaClient.subscribeToResponseOf('get_user');
+    this.kafkaClient.subscribeToResponseOf('findAll');
+  }
+
   async findAll() {
     return await firstValueFrom(
       this.kafkaClient.send('findAll', {}).pipe(timeout(5000)),
@@ -20,14 +28,9 @@ export class UsersService implements OnModuleInit {
 
   create(createUserDto: CreateUserDto) {
     this.kafkaClient.emit('order_create', createUserDto);
-    console.log('Received from users microservice:');
-    // return result;
+    console.log('Emitted order_create event');
   }
 
-  async onModuleInit() {
-    this.kafkaClient.subscribeToResponseOf('get_user');
-    await this.kafkaClient.connect();
-  }
   async findOneUser(email: string): Promise<User> {
     console.log('Sending email to get_user topic:', email);
 
@@ -35,5 +38,4 @@ export class UsersService implements OnModuleInit {
       this.kafkaClient.send<User>('get_user', email).pipe(timeout(5000)),
     );
   }
-
 }

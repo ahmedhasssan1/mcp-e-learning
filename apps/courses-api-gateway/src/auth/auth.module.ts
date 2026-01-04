@@ -29,14 +29,7 @@ import { APP_GUARD } from '@nestjs/core';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  providers: [
-    AuthService,
-    WsJwtGuard,
-    {
-      provide: APP_GUARD,
-      useClass: WsJwtGuard,
-    },
-  ],
+  providers: [AuthService, WsJwtGuard],
   controllers: [AuthController],
   exports: [WsJwtGuard, AuthService],
 })
