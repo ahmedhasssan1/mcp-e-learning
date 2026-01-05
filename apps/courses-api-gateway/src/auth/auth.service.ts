@@ -26,6 +26,9 @@ export class AuthService implements OnModuleInit {
     const payload = await this.jwtService.verifyAsync(token, {
       secret: '1123',
     });
-    return payload;
+    
+    console.log('conosle payload ',payload);
+    
+    return true;
   }
 }
