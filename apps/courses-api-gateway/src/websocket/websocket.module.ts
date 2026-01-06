@@ -34,10 +34,10 @@ import { WsJwtGuard } from '../auth/ws-jwt/ws-jwt.guard';
   providers: [
     WebsocketGateway,
     WebsocketService,
-    {
-      provide: APP_GUARD,
-      useClass: WsJwtGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: WsJwtGuard,
+    // },
   ],
 
   controllers: [WebsocketController],

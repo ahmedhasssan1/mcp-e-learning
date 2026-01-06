@@ -36,4 +36,11 @@ export class AuthService {
     
     return token;
   }
+  async  findOneByEmail(email:string){
+    const user_exist=await this.userRepo.findOne({where:{email}});
+    if(!user_exist){
+      return  false
+    }
+    return user_exist;  
+  }
 }

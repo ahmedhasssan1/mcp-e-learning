@@ -17,4 +17,8 @@ export class AuthController {
   async login(@Payload() data: LoginDto) {
     return await this.authService.login(data);
   }
+  @MessagePattern("user_exist")
+  async findUser(@Payload() email:string){
+    return await this.authService.findOneByEmail(email);
+  }
 } 

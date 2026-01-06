@@ -12,7 +12,11 @@ export class AuthService implements OnModuleInit {
     private jwtService: JwtService,
   ) {}
   async onModuleInit() {
-    this.AuthClient.subscribeToResponseOf('auth_login');
+    const messgaes=[
+      "auth_login",
+      "user_exist"
+    ]
+    messgaes.forEach((pattern)=>this.AuthClient.subscribeToResponseOf(pattern))
     await this.AuthClient.connect();
   }
   async login(userData: LoginDto) {
@@ -26,9 +30,15 @@ export class AuthService implements OnModuleInit {
     const payload = await this.jwtService.verifyAsync(token, {
       secret: '1123',
     });
-    
-    console.log('conosle payload ',payload);
-    
+    const email = payload.email;
+    const findEmail = await firstValueFrom(
+      this.AuthClient.send('user_exist', email).pipe(timeout(5000)),
+    );
+    console.log('conosle payload ', payload);
+
+    if (!findEmail) {
+      return false;
+    }
     return true;
   }
 }
