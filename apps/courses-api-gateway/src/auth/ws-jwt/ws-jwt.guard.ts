@@ -4,7 +4,7 @@ import { AuthService } from '../auth.service';
 
 @Injectable()
 export class WsJwtGuard implements CanActivate {
-  constructor(private  authService: AuthService) {}
+  constructor(private authService: AuthService) {}
 
   canActivate(context: ExecutionContext): boolean | promise<boolean> {
     const client: Socket = context.switchToWs().getClient();
@@ -13,12 +13,12 @@ export class WsJwtGuard implements CanActivate {
 
     if (!auth) return false;
 
-    ;
+    // return true;
     // const token2 = authorization.split(' ')[0];
     // console.log('Extracted token:', auth);
     // console.log('Extracted token:', token2);
 
-    return WsJwtGuard.validateToken(auth);
+    return this.validateToken(auth);
 
     // ✅ attach user to socket
     // client.data.user = payload;
@@ -29,13 +29,12 @@ export class WsJwtGuard implements CanActivate {
   private async validateToken(token: any) {
     console.log('from validate token debugging ');
 
-      const verfiy=await this.authService.verfiytoken(token);
-      // console.log('tokeen', token);
+    const verfiy = await this.authService.verfiytoken(token);
+    // console.log('tokeen', token);
     if (!token) {
       console.log('debugging no conect allowes');
       return false;
     }
     return true;
   }
-  
 }
