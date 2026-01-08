@@ -8,6 +8,7 @@ export type SocketIoMiddleWare = {
 
 export const SocketAuthMiddleWare = (
   authService: AuthService,
+  WsJwtGuard:WsJwtGuard
 ): SocketIoMiddleWare => {
   return async (client, next) => {
     try {
@@ -18,12 +19,10 @@ export const SocketAuthMiddleWare = (
         return next(new Error('No authorization token'));
       }
       const to = authHeader.split(' ')[1];
-      // WsJwtGuard.validateToken(to);
-      const payload= await authService.verfiytoken(to);
-      if(!payload){
+      const payload = await authService.verfiytoken(to);
+      if (!payload) {
         console.log('the user notlogged or not exist in database');
-        return next(new Error("noa auth"))
-        
+        return next(new Error('noa auth'));
       }
       next();
     } catch (err) {

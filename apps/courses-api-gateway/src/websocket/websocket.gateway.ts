@@ -61,6 +61,7 @@ export class WebsocketGateway
   sendMessage(message: createMessageDto) {
     console.log(' Broadcasting message:', message);
     this.server.emit('NewMessage', message);
+    return 'from ws  server';
   }
 
   sendMessageToUser(userId: string, message: createMessageDto) {

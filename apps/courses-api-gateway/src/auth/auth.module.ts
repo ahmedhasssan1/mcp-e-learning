@@ -7,9 +7,14 @@ import { JwtModule } from '@nestjs/jwt';
 import { WsJwtGuard } from './ws-jwt/ws-jwt.guard';
 import { SocketAuthMiddleWare } from './ws.mw';
 import { APP_GUARD } from '@nestjs/core';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true,
+    }),
     ClientsModule.register([
       {
         name: QueueName.KAFKA_SERVICE,
@@ -24,6 +29,13 @@ import { APP_GUARD } from '@nestjs/core';
         },
       },
     ]),
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_PASS'),
+        signOptions: { expiresIn: '1d' },
+      }),
+    }),
     JwtModule.register({
       secret: process.env.JWT_PASS,
       signOptions: { expiresIn: '1d' },

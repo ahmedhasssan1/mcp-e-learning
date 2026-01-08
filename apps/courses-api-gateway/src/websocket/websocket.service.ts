@@ -17,14 +17,15 @@ export class WebsocketService implements OnModuleInit {
   }
   async createMessage(createMessage: createMessageDto) {
     try {
+      
       const NewMessage = await firstValueFrom(
         this.kafkaClient
           .send('create_message', createMessage)
           .pipe(timeout(5000)),
       );
-      console.log('✅ Received response from Kafka:', NewMessage);
+      console.log(' Received response from Kafka:', NewMessage);
 
-      await this.wsGateway.SendMessage(createMessage);
+      await this.wsGateway.sendMessage(createMessage);
       return NewMessage;
     } catch (err) {
       console.log('catch error can not handle createmessage function');
