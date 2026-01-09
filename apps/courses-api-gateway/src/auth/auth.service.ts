@@ -21,7 +21,7 @@ export class AuthService implements OnModuleInit {
     await this.AuthClient.connect();
   }
   async login(userData: LoginDto) {
-    console.log('user data logiun', userData);
+    console.log('user data logfiun', userData);
     const result = await firstValueFrom(
       this.AuthClient.send('auth_login', userData).pipe(timeout(5000)),
     );
