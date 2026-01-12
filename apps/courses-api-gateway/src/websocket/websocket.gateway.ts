@@ -53,7 +53,7 @@ export class WebsocketGateway
   ): string {
     const user = client.data.user;
 
-    console.log('Message received   yes this for the streake from user:', user?.sub, payload);
+    console.log('Message received from user:..', user?.sub, payload);
 
     return 'Hello from websocket gateway';
   }
