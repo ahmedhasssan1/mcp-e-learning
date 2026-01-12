@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from '../auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { WsJwtGuard } from '../auth/ws-jwt/ws-jwt.guard';
+import { ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
@@ -25,9 +26,12 @@ import { WsJwtGuard } from '../auth/ws-jwt/ws-jwt.guard';
         },
       },
     ]),
-    JwtModule.register({
-      secret: process.env.JWT_PASS,
-      signOptions: { expiresIn: '1d' },
+    JwtModule.registerAsync({
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        secret: configService.get<string>('JWT_PASS'),
+        signOptions: { expiresIn: '1d' },
+      }),
     }),
     AuthModule,
   ],
