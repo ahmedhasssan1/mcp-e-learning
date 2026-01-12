@@ -31,6 +31,7 @@ export class AuthService implements OnModuleInit {
     const payload = await this.jwtService.verifyAsync(token, {
       secret: this.configService.get<string>('JWT_PASS'),
     });
+    
     const email = payload.email;
     const findEmail = await firstValueFrom(
       this.AuthClient.send('user_exist', email).pipe(timeout(5000)),
