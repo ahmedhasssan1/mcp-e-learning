@@ -36,10 +36,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         signOptions: { expiresIn: '1d' },
       }),
     }),
-    JwtModule.register({
-      secret: process.env.JWT_PASS,
-      signOptions: { expiresIn: '1d' },
-    }),
+ 
   ],
   providers: [AuthService, WsJwtGuard],
   controllers: [AuthController],
