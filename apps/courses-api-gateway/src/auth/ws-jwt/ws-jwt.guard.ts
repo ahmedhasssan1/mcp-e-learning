@@ -6,7 +6,7 @@ import { AuthService } from '../auth.service';
 export class WsJwtGuard implements CanActivate {
   constructor(private authService: AuthService) {}
 
-  canActivate(context: ExecutionContext): boolean  {
+  canActivate(context: ExecutionContext): boolean | Promise<booleand> {
     const client: Socket = context.switchToWs().getClient();
     const auth = client.handshake.headers.authorization;
     console.log('debugging from canacrive ', auth);

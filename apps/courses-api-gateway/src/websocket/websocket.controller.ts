@@ -8,7 +8,6 @@ export class WebsocketController {
 
   @Post('newMessgae')
   async newMessage(@Body() message: createMessageDto, @Req() req: any) {
-    console.log('debugging request ', req);
 
     const token = req.headers.authorization;
     console.log('get token', token);
