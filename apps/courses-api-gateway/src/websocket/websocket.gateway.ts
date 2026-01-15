@@ -23,6 +23,7 @@ export class WebsocketGateway
 {
   @WebSocketServer()
   server: Server;
+  users:number=0;
 
   constructor(private readonly authService: AuthService) {}
 
@@ -34,11 +35,10 @@ export class WebsocketGateway
     console.log(' Authentication middleware applied');
   }
 
-  handleConnection(client: Socket) {
-    const user = client.data.user;
-    console.log(' Client connected:', client.id);
-    console.log('User:', user?.sub || user?.userId);
-  }
+   async handleConnection() {
+     this.users++;
+     this.server.emit('users',this.users)
+   }
 
   handleDisconnect(client: Socket) {
     const user = client.data.user;
@@ -46,22 +46,22 @@ export class WebsocketGateway
     console.log('User was:', user?.sub || user?.userId);
   }
 
-  @SubscribeMessage('message')
+  @SubscribeMessage('NewMessage')
   handleMessage(
     @ConnectedSocket() client: Socket,
     @MessageBody() payload: any,
   ): string {
     const user = client.data.user;
-
+    client.broadcast.emit("NewMessage",payload)
     console.log('Message received from user:..', user?.sub, payload);
-
     return 'Hello from websocket gateway';
   }
 
   sendMessage(message: createMessageDto) {
     console.log(' Broadcasting message:', message);
+    // this.handleMessage(Socket,message)
     this.server.emit('NewMessage', message);
-    return 'from ws  server';
+    return 'from ws server';
   }
 
   sendMessageToUser(userId: string, message: createMessageDto) {
