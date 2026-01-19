@@ -29,7 +29,6 @@ import { ConfigModule } from '@nestjs/config';
     CoursesModule,
     AuthModule,
     WebsocketModule,
- 
   ],
   controllers: [CoursesApiGatewayController],
   providers: [CoursesApiGatewayService],

@@ -53,7 +53,9 @@ export class WebsocketGateway
   ): string {
     const user = client.data.user;
     client.broadcast.emit("NewMessage",payload)
-    console.log('Message received from user:..', user?.sub, payload);
+    console.log('from client to server');
+    
+    console.log('Message received from user:..', user, payload);
     return 'Hello from websocket gateway';
   }
 
