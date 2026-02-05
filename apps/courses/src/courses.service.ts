@@ -11,4 +11,8 @@ export class CoursesService {
     const courses=await this.courseRepo.find();
     return courses
   }
+  async getOne(id:number):Promise<Course>{
+    const course=await this.courseRepo.findOne({where:{id}});
+    return course;
+  }
 }

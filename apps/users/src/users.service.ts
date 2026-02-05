@@ -12,6 +12,7 @@ import { ClientKafka, ClientProxy } from '@nestjs/microservices';
 import * as bcrypt from 'bcryptjs';
 import { CreateUserDto } from '@app/contracts/users/user.dto';
 import { User } from '@app/contracts/users/entity/users.entity';
+import { throws } from 'assert';
 
 @Injectable()
 export class UsersService implements OnModuleInit {
@@ -63,6 +64,10 @@ export class UsersService implements OnModuleInit {
   async findOneByEmail(email: string) {
     console.log('get uyser data');
     return await this.userRepo.findOne({where:{email}})
+    
+  }
+  async deleteOne(id:numebr){
+    const user=await this.userRepo.delete(id);
     
   }
 }
