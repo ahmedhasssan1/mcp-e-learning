@@ -22,7 +22,7 @@ export class CoursesService {
     if (!course_exist) {
       throw new Error('Course not found');
     }
-    console.log('testing branchesss');
+    console.log('edit in main ');
     return await this.courseRepo.remove(course_exist);
     
   }
