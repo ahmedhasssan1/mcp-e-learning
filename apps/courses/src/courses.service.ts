@@ -22,7 +22,7 @@ export class CoursesService {
     if (!course_exist) {
       throw new Error('Course not found');
     }
-    console.log('trying to create pull request');
+    console.log('update in local  repo ');
     return await this.courseRepo.remove(course_exist);
     
   }
