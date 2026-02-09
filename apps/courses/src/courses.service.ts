@@ -22,7 +22,7 @@ export class CoursesService {
     if (!course_exist) {
       throw new Error('Course not found');
     }
-    console.log('update in local  feature branch repo ');
+    console.log('create branch on remote ');
     return await this.courseRepo.remove(course_exist);
     
   }
